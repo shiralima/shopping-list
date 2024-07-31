@@ -1,8 +1,11 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 
-import { Category } from '../types/interfaces/category.interface';
+import { useAlert } from './AlertContext';
 
-interface ProviderValue {
+import { Category } from '../types/interfaces/category.interface';
+import { AlertType } from '../types/enums/AlertType.enum';
+
+interface ShopContextType {
   categories: Category[];
   addProduct: (name: string, categoryId: number) => void;
   finishOrder: () => void;
@@ -13,10 +16,12 @@ interface ShopProviderProps {
   children: ReactNode;
 }
 
-const ShopContext = createContext<ProviderValue | null>(null);
+const ShopContext = createContext<ShopContextType | null>(null);
 
 export const ShopProvider: React.FC<ShopProviderProps> = ({ children }) => {
   const [categories, setCategories] = useState<Category[] | []>([]);
+
+  const { setAlert } = useAlert();
 
   const getCategories = async () => {
     try {
@@ -28,8 +33,9 @@ export const ShopProvider: React.FC<ShopProviderProps> = ({ children }) => {
       const data = await response.json();
 
       setCategories(data);
-    } catch (error) { //todo alert
-      setCategories([]);
+    } catch (error) { 
+      console.log('error:', error);
+      setAlert({ message: "הייתה בעיה בהבאת הקטגוריות מהשרת, נסו לרענון", type: AlertType.ERROR })
     }
   };
 
@@ -64,15 +70,25 @@ export const ShopProvider: React.FC<ShopProviderProps> = ({ children }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ categories }),
     });
+
+    setAlert({ message: "הזמנה בוצעה בהצלחה! מוזמנים ליצור הזמנה חדש. ניתן לאפס את ההזמנה או להוסיף מוצרים עוד מוצרים להזמנה הישנה שלכם ולהזמין אותם עוד פעם", type: AlertType.SUCCESS })
   }
 
   const clearOrder = async () => {
-    await fetch('/api/products', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-    });
+    try {
 
-    await getCategories(); //todo 
+      await fetch('/api/products', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      setAlert({ message: "סל הקניות נוקה בהצלחה, מוזמנים לאסוף מוצרים חדשים", type: AlertType.SUCCESS });
+
+      await getCategories();  
+    } catch (error) {
+      console.log('error:', error)
+      setAlert({ message: "אירעה שגיאה בניקוי סל הקניות, נסו לרענון", type: AlertType.ERROR });
+    }
   }
 
   useEffect(() => {
@@ -80,8 +96,6 @@ export const ShopProvider: React.FC<ShopProviderProps> = ({ children }) => {
     const inzaliseStates = async () => {
       await getCategories();
     }
-
-    console.log('in--')
 
     inzaliseStates();
 

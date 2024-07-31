@@ -1,19 +1,27 @@
-import React from 'react';
-import { Box } from '@mui/material';
-import { ShopProvider } from './context/ShopContext';
+import React, { useEffect } from 'react';
 import AddProductForm from './components/AddProductForm';
 import CategoryList from './components/CategoryList';
 import TotalItems from './components/TotalItems';
+import { useAlert } from './context/AlertContext';
+import { AlertType } from './types/enums/AlertType.enum';
 
 const App: React.FC = () => {
+
+  const { setAlert } = useAlert();
+
+  useEffect(() => {
+    setAlert({
+      type: AlertType.INFO,
+      message: 'ברוכים הבאים לאתר רשימת הקניות שלכם! קניה נעימה',
+    });
+  }, [setAlert]);
+
   return (
-    <ShopProvider>
-      <Box sx={{ padding: 2 }}>
-        <TotalItems />
-        <AddProductForm />
-        <CategoryList />
-      </Box>
-    </ShopProvider>
+    <>
+      <TotalItems />
+      <AddProductForm />
+      <CategoryList />
+    </>
   );
 };
 

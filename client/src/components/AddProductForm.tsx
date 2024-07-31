@@ -21,9 +21,9 @@ const AddProductForm: React.FC = () => {
     setProductText(event.target.value);
   };
 
-  const handleAddProduct = async () => {
+  const handleAddProduct = () => {
     if (selectedCategory) {
-      await addProduct(productText, selectedCategory.id);
+      addProduct(productText, selectedCategory.id);
       setProductText('');
     }
   };
