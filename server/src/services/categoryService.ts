@@ -4,7 +4,9 @@ import { CategoryType } from '../enums/CategoryType.enum';
 
 export const getCategories = async () => {
     const categoryRepository = AppDataSource.getRepository(Category);
-    return await categoryRepository.find();
+    return await categoryRepository.find({
+        relations: ["products"]
+    });
 };
 
 export const initializeCategories = async () => {
@@ -19,12 +21,3 @@ export const initializeCategories = async () => {
         console.log('Initial categories table successfully');
     }
 };
-
-export const getCategoryWithProducts = async (categoryId: number) => {
-    const categoryRepository = AppDataSource.getRepository(Category);
-    return await categoryRepository.findOne({
-        where: { id: categoryId },
-        relations: ['products'],
-    });
-};
-
