@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { useShop } from '../context/ShopContext';
-import { TOTAL_ITEMS } from '../constants/hebrewText';
+import { TOTAL, ITEMS } from '../constants/hebrewText';
 
 const TotalItems: React.FC = () => {
   const { categories } = useShop();
@@ -9,12 +9,14 @@ const TotalItems: React.FC = () => {
   let totalItemsCounter = 0;
 
   categories.forEach(({ products }) => {
-    totalItemsCounter += products.length
+    products.forEach(({ quantity }) => {
+      totalItemsCounter += quantity || 1
+    })
   });
 
   return (
     <Box sx={{ marginBottom: 2 }}>
-      <Typography variant="h6">{TOTAL_ITEMS}: {totalItemsCounter}</Typography>
+      <Typography variant="h6">{TOTAL}: {totalItemsCounter} {ITEMS}</Typography>
     </Box>
   );
 };

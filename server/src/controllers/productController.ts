@@ -1,34 +1,30 @@
 import { IncomingMessage, ServerResponse } from 'http';
-import { addProduct, getProducts } from '../services/productService';
+import { deleteProducts, getProducts, saveOrder } from '../services/productService';
 
 export const productsController = async (req: IncomingMessage, res: ServerResponse) => {
-  if (req.method === 'POST' && req.url === '/api/products') {
-    await handleAddProduct(req, res);
+  if (req.method === 'POST' && req.url === '/api/products/order') {
+    await handleSaveOrder(req, res);
   } else if (req.method === 'GET' && req.url === '/api/products') {
     await handleGetProducts(req, res);
+  } else if (req.method === 'DELETE' && req.url === '/api/products') {
+    await handleDeleteProducts(req, res);
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
   }
 };
 
-const handleAddProduct = async (req: IncomingMessage, res: ServerResponse) => {
+const handleSaveOrder = async (req: IncomingMessage, res: ServerResponse) => {
   try {
     let body = ''; //todo - put it outside
     req.on('data', chunk => body += chunk.toString());
     req.on('end', async () => {
       try {
-        const { name, categoryId } = JSON.parse(body);
+        const { categories } = JSON.parse(body);
+        console.log('categories:', categories)
 
-        if (!name || !categoryId) {
-          res.writeHead(400, { 'Content-Type': 'text/plain' });
-          res.end('Bad Request: Missing name or categoryId');
-          return;
-        }
-
-        const product = await addProduct(name, categoryId);
-        res.writeHead(201, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(product));
+        await saveOrder(categories);
+        res.end();
       } catch (err) {
         res.writeHead(400, { 'Content-Type': 'text/plain' });
         res.end('Invalid JSON');
@@ -39,13 +35,25 @@ const handleAddProduct = async (req: IncomingMessage, res: ServerResponse) => {
     res.writeHead(500, { 'Content-Type': 'text/plain' });
     res.end('Internal Server Error');
   }
-};
+}
 
 const handleGetProducts = async (req: IncomingMessage, res: ServerResponse) => {
   try {
     const products = await getProducts();
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(products));
+  } catch (error) {
+    res.writeHead(500, { 'Content-Type': 'text/plain' });
+    res.end('Internal Server Error');
+  }
+};
+
+
+const handleDeleteProducts = async (req: IncomingMessage, res: ServerResponse) => {
+  try {
+    await deleteProducts();
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end();
   } catch (error) {
     res.writeHead(500, { 'Content-Type': 'text/plain' });
     res.end('Internal Server Error');

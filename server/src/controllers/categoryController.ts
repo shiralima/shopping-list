@@ -1,5 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'http';
 import { getCategories } from '../services/categoryService';
+import { Category } from '../entity/Category';
 
 export const categoriesController = async (req: IncomingMessage, res: ServerResponse) => {
   if (req.method === 'GET' && req.url === '/api/categories') {

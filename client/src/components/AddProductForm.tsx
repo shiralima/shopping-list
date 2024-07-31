@@ -3,13 +3,13 @@ import { Button, Box, SelectChangeEvent } from '@mui/material';
 import { useShop } from '../context/ShopContext';
 import CategorySelect from './CategorySelect';
 import ProductInput from './ProductInput';
-import { ADD } from '../constants/hebrewText';
+import { ADD, CLEAR_ORDER, FINISH_ORDER } from '../constants/hebrewText';
 import { Category } from '../types/interfaces/category.interface';
 
 const AddProductForm: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [productText, setProductText] = useState<string>('');
-  const { addProduct, categories } = useShop();
+  const { addProduct, categories, finishOrder, clearOrder } = useShop();
 
   const handleCategoryChange = (event: SelectChangeEvent<number>) => {
     const selectedId = event.target.value as number;
@@ -24,7 +24,7 @@ const AddProductForm: React.FC = () => {
   const handleAddProduct = async () => {
     if (selectedCategory) {
       await addProduct(productText, selectedCategory.id);
-      setProductText(''); // Clear the input field after adding the product
+      setProductText('');
     }
   };
 
@@ -32,9 +32,17 @@ const AddProductForm: React.FC = () => {
     <Box sx={{ maxWidth: 400, margin: '0 auto', padding: 2 }}>
       <CategorySelect selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
       <ProductInput productText={productText} onProductTextChange={handleProductTextChange} />
-      <Button variant="contained" color="primary" onClick={handleAddProduct} sx={{ marginTop: 2 }}>
-        {ADD}
-      </Button>
+      <Box sx={{ display: 'flex', marginTop: 5, justifyContent: 'space-around' }}>
+        <Button variant="contained" color="primary" onClick={handleAddProduct}>
+          {ADD}
+        </Button>
+        <Button variant="contained" color="primary" onClick={finishOrder}>
+          {FINISH_ORDER}
+        </Button>
+        <Button variant="contained" color="primary" onClick={clearOrder}>
+          {CLEAR_ORDER}
+        </Button>
+      </Box>
     </Box>
   );
 };

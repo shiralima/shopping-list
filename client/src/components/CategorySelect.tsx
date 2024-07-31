@@ -15,14 +15,15 @@ const CategorySelect: React.FC<CategorySelectProps> = ({ selectedCategory, onCat
   const { categories } = useShop();
 
   return (
-    <FormControl fullWidth margin="normal">
-      <InputLabel id="category-select-label">{CATEGORY}</InputLabel>
+    <FormControl fullWidth margin="normal" >
+      <InputLabel id="category-select-label" >{CATEGORY}</InputLabel>
       <Select
         labelId="category-select-label"
         id="category-select"
         value={selectedCategory ? selectedCategory.id : ''}
         onChange={onCategoryChange}
         label={CATEGORY}
+
       >
         {categories.map((category) => (
           <MenuItem key={category.id} value={category.id}>
