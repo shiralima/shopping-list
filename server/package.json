@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "main": "dist/server.js",
+  "scripts": {
+  "build": "tsc",
+  "start": "node dist/server.js",
+  "dev": "ts-node src/server.ts"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "mssql": "^10.0.4",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
