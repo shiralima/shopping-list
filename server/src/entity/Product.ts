@@ -12,3 +12,4 @@ export class Product { //todo fix !
   @ManyToOne(() => Category, category => category.products)
   category!: Category;
 }
+  

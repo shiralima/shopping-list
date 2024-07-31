@@ -44,12 +44,12 @@ const BasicSelect: React.FC = () => {
   // Handle add product
   const handleAddProduct = async () => {
     if (!productText || !selectedCategory) {
-      alert('Please enter product text and select a category.');
+      alert('Please enter product text and select a category.'); 
       return;
     }
 
     try {
-      const res = await fetch('/api/products', {
+      const res = await fetch('/api/products', { //todo - check best Rest practice 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -62,10 +62,10 @@ const BasicSelect: React.FC = () => {
         throw new Error(`Status: ${res.status}`);
       }
 
-      // Clear input and selection
       setProductText('');
       setSelectedCategory(null);
       alert('Product added successfully.');
+      
     } catch (error) {
       console.error('Error adding product:', error);
     }

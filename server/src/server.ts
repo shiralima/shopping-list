@@ -1,60 +1,32 @@
-import http from 'http';
-import { AppDataSource } from './ormconfig';
-import { Category } from './entity/Category';
-import { Product } from './entity/Product';
-import { CategoryType } from './enums/CategoryType.enum';
+import 'dotenv/config';
+import http, { IncomingMessage, ServerResponse } from 'http';
+import { initializeDatabase } from './config/db';
+import { categoriesController } from './controllers/categoryController';
+import { productsController } from './controllers/productController';
 
-AppDataSource.initialize()
-  .then(async () => {
-    console.log('Data Source has been initialized!');
+const requestHandler = (req: IncomingMessage, res: ServerResponse) => {
+  if (req.url?.startsWith('/api/categories')) {
+    categoriesController(req, res);
+  } else if (req.url?.startsWith('/api/products')) {
+    productsController(req, res)
+  }
+  else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Not Found');
+  }
+};
 
-    const categoryRepository = AppDataSource.getRepository(Category);
-    const existingCategories = await categoryRepository.find();
-
-    if (existingCategories.length === 0) {
-      const initialCategories = [
-        { name: CategoryType.FRUITS_AND_VEGETABLE },
-        { name: CategoryType.CLEANING_PRODUCTS },
-        { name: CategoryType.PASTRIES },
-        { name: CategoryType.MEAT_AND_FISH },
-        { name: CategoryType.CHEESES },
-      ];
-
-      await categoryRepository.save(initialCategories);
-      console.log('Initial categories have been inserted');
-    }
-
-    const server = http.createServer(async (req, res) => {
-      if (req.method === 'GET' && req.url === '/api/categories') {
-        try {
-          const categories = await AppDataSource.getRepository(Category).find();
-          res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-          res.end(JSON.stringify(categories));
-        } catch (error) {
-          console.error('Error fetching categories:', error);
-          res.writeHead(500, { 'Content-Type': 'text/plain' });
-          res.end('Internal Server Error');
-        }
-      } else if (req.method === 'GET' && req.url === '/api/products') {
-        try {
-          const products = await AppDataSource.getRepository(Product).find();
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify(products));
-        } catch (error) {
-          console.error('Error fetching products:', error);
-          res.writeHead(500, { 'Content-Type': 'text/plain' });
-          res.end('Internal Server Error');
-        }
-      } else {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('Not Found');
-      }
-    });
-
+const startServer = async () => {
+  try {
+    await initializeDatabase();
+    const server = http.createServer(requestHandler);
     server.listen(8000, () => {
       console.log('Server is running on http://localhost:8000');
     });
-  })
-  .catch((error) => {
-    console.error('Error during Data Source initialization:', error);
-  });
+  } catch (error) {
+    console.error('Failed to start server:', error);
+    process.exit(1); // Exit the process if initialization fails
+  }
+};
+
+startServer();

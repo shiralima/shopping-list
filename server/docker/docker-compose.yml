@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build: ./docker
+    container_name: nodeapp
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "shopping_list"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+volumes:
+  sqlserver_data:
