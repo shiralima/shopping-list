@@ -21,7 +21,6 @@ const handleSaveOrder = async (req: IncomingMessage, res: ServerResponse) => {
     req.on('end', async () => {
       try {
         const { categories } = JSON.parse(body);
-        console.log('categories:', categories)
 
         await saveOrder(categories);
         res.end();

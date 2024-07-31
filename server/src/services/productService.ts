@@ -20,7 +20,6 @@ export const saveOrder = async (categories: Category[]) => {
         }))
     );
 
-    console.log('productsToSave:', productsToSave);
 
     for (const productData of productsToSave) {
         const category = await categoryRepository.findOneBy({ id: productData.categoryId });

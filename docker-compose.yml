@@ -8,7 +8,7 @@ services:
       SA_PASSWORD: "Z10mz10m!"
       ACCEPT_EULA: "Y"
     ports:
-      - "1433:1433"
+      - "49001:1433"
     volumes:
       - sqlserver_data:/var/opt/mssql
 
@@ -20,7 +20,7 @@ services:
     depends_on:
       - sqlserver
     ports:
-      - "8000:8000"
+      - "49002:8000"
     environment:
       DB_HOST: "sqlserver"
       DB_PORT: "1433"
@@ -34,7 +34,7 @@ services:
       dockerfile: Dockerfile
     container_name: client
     ports:
-      - "80:80"
+      - "49003:80"
 
 volumes:
   sqlserver_data:

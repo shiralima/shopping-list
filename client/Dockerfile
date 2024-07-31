@@ -1,5 +1,5 @@
 # Base image for building the app
-FROM node:18 AS build
+FROM node:20 AS build
 
 # Set working directory
 WORKDIR /app
@@ -23,7 +23,7 @@ FROM nginx:alpine
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 49003
 
 # Command to run Nginx
 CMD ["nginx", "-g", "daemon off;"]
