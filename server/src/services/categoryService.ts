@@ -14,9 +14,17 @@ export const initializeCategories = async () => {
     if (existingCategories.length === 0) {
         // Map enum values to category objects
         const initialCategories = Object.values(CategoryType).map(name => ({ name }));
-        
+
         await categoryRepository.save(initialCategories);
-        console.log('Initial categories have been inserted');
+        console.log('Initial categories table successfully');
     }
+};
+
+export const getCategoryWithProducts = async (categoryId: number) => {
+    const categoryRepository = AppDataSource.getRepository(Category);
+    return await categoryRepository.findOne({
+        where: { id: categoryId },
+        relations: ['products'],
+    });
 };
 
