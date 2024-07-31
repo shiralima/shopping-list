@@ -4,14 +4,14 @@ import { Category } from '../entity/Category';
 
 export const categoriesController = async (req: IncomingMessage, res: ServerResponse) => {
   if (req.method === 'GET' && req.url === '/api/categories') {
-    await handleGetCategories(req, res);
+    await handleGetCategories(res);
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
   }
 };
 
-const handleGetCategories = async (req: IncomingMessage, res: ServerResponse) => {
+const handleGetCategories = async (res: ServerResponse) => {
   try {
     const categories = await getCategories();
     res.writeHead(200, { 'Content-Type': 'application/json' });

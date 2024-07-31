@@ -14,7 +14,6 @@ export const initializeCategories = async () => {
     const existingCategories = await categoryRepository.find();
 
     if (existingCategories.length === 0) {
-        // Map enum values to category objects
         const initialCategories = Object.values(CategoryType).map(name => ({ name }));
 
         await categoryRepository.save(initialCategories);

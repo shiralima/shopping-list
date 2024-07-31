@@ -2,13 +2,6 @@ import { Product } from '../entity/Product';
 import { AppDataSource } from '../config/ormconfig';
 import { Category } from '../entity/Category';
 
-export const addProduct = async (name: string, categoryId: number) => {
-    const productRepository = AppDataSource.getRepository(Product);
-    const product = productRepository.create({ name, category: { id: categoryId } });
-    await productRepository.save(product);
-    return product;
-};
-
 export const saveOrder = async (categories: Category[]) => {
     const productRepository = AppDataSource.getRepository(Product);
     const categoryRepository = AppDataSource.getRepository(Category);
@@ -28,11 +21,6 @@ export const saveOrder = async (categories: Category[]) => {
             await productRepository.save(product);
         }
     }
-};
-
-export const getProducts = async () => {
-    const productRepository = AppDataSource.getRepository(Product);
-    return await productRepository.find();
 };
 
 export const deleteProducts = async () => {

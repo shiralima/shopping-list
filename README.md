@@ -47,8 +47,11 @@ cd client && npm install && npm run dev
 ### Server
 cd server && npm install && npm run dev
 
+### Database
+change the password in the .env file to match your sql sever password (DB_PASSWORD variable).
+
 ## Web Flow
-### RRegular Functionality
+### Regular Functionality
 - Add products to specific categories.
 - After adding a product, it will be displayed under the category it was added to.
 - If there are no products in a category, it will not be displayed.
