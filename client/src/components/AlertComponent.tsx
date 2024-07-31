@@ -1,9 +1,9 @@
 import React from 'react';
 import { Snackbar, Alert as MuiAlert } from '@mui/material';
-import { Alert as AlertType } from '../types/types/Alert.type';
+import { Alert } from '../types/types/Alert.type';
 
 interface AlertComponentProps {
-    alert: AlertType;
+    alert: Alert;
     onClose: () => void;
 }
 
@@ -25,10 +25,10 @@ const AlertComponent: React.FC<AlertComponentProps> = ({ alert, onClose }) => {
                 severity={alert?.type}
                 sx={{
                     width: '100%',
-                    maxWidth: '600px', 
-                    backgroundColor: 'blue', 
-                    color: 'white', 
-                    fontSize: '1.5rem', 
+                    maxWidth: '600px',
+                    backgroundColor: 'blue',
+                    color: 'white',
+                    fontSize: '1.5rem',
                 }}
             >
                 {alert?.message}

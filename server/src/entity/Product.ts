@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Category } from './Category';
 
 @Entity({ name: "products" })
-export class Product { //todo fix !
+export class Product { 
   @PrimaryGeneratedColumn()
   id!: number;
 

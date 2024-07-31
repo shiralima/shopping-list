@@ -42,14 +42,20 @@ const CategoryList: React.FC = () => {
           {categories
             .filter(category => category.products.length > 0)
             .map(({ id, name, products }: Category) => {
-              const productNames = products.map(({ name, quantity }) => `${name} (${quantity || 1})`).join(', ');
+
+              const productNames = products.map(({ name, quantity }) =>
+                (quantity ?? 1) > 1 ? `${name} (${quantity})` : name
+              ).join(', ');
+
+              let currentCategoryTotalItems = 0;
+              products.forEach(({ quantity }) => { currentCategoryTotalItems += (quantity ?? 1) });
 
               return (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={id}>
                   <Box sx={{ padding: 2, border: '1px solid #ddd', borderRadius: 2 }}>
-                    <Typography variant="h6" sx={{ textAlign: 'right', display: 'flex', alignItems: 'center' }}>
+                    <Typography variant="h6" sx={{ textAlign: 'right', display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                      {name} ({currentCategoryTotalItems})
                       {categoryIcons[name as CategoryType]}
-                      {name} ({products.length})
                     </Typography>
                     <Typography variant="body2" sx={{ textAlign: 'right', marginTop: 1, color: 'text.secondary' }}>
                       {productNames}

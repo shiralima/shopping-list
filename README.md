@@ -31,8 +31,21 @@
 
 Clone the repository using HTTPS:
 ```bash
-git clone https://github.com/yourusername/shopping-list-project.git
+git clone https://github.com/shiralima/shopping-list.git
 ```
+
+Clone the repository using SSH:
+```bash
+git clone git@github.com:shiralima/shopping-list.git
+```
+
+## Run Project
+
+### Client
+cd client && npm install && npm run dev
+
+### Server
+cd server && npm install && npm run dev
 
 ## Technologies Used
 

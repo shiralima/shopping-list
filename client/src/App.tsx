@@ -4,6 +4,7 @@ import CategoryList from './components/CategoryList';
 import TotalItems from './components/TotalItems';
 import { useAlert } from './context/AlertContext';
 import { AlertType } from './types/enums/AlertType.enum';
+import { WELCOME_MSG } from './constants/hebrewText';
 
 const App: React.FC = () => {
 
@@ -12,7 +13,7 @@ const App: React.FC = () => {
   useEffect(() => {
     setAlert({
       type: AlertType.INFO,
-      message: 'ברוכים הבאים לאתר רשימת הקניות שלכם! קניה נעימה',
+      message: WELCOME_MSG,
     });
   }, [setAlert]);
 

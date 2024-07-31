@@ -1,4 +1,4 @@
-export enum CategoryType {//todo check en
+export enum CategoryType {
     FRUITS_AND_VEGETABLE = "פירות וירקות",
     CLEANING_PRODUCTS = "מוצרי ניקיון",
     PASTRIES = "מאפים",

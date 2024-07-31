@@ -9,11 +9,11 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER || 'sa',
   password: process.env.DB_PASSWORD || 'Z10mz10m!',
   database: process.env.DB_NAME || 'shopping_list',
-  synchronize: true, 
+  synchronize: true,
   logging: false,
   entities: [Category, Product],
   options: {
-    encrypt: true, // Use encryption (SSL/TLS)
-    trustServerCertificate: true // Trust self-signed certificates
+    encrypt: true,
+    trustServerCertificate: true
   }
 });

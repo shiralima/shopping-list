@@ -16,7 +16,7 @@ export const productsController = async (req: IncomingMessage, res: ServerRespon
 
 const handleSaveOrder = async (req: IncomingMessage, res: ServerResponse) => {
   try {
-    let body = ''; //todo - put it outside
+    let body = ''; 
     req.on('data', chunk => body += chunk.toString());
     req.on('end', async () => {
       try {
