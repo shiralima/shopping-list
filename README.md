@@ -2,17 +2,17 @@
 
 ## Table of Contents
 
-1. [Technologies Used](#technologies-used)
-2. [Installation](#installation)
+1. [Installation](#installation)
    - [Ensure Dependencies](#ensure-dependencies)
    - [Database Setup](#database-setup)
-3. [Cloning the Project](#cloning-the-project)
-4. [Environment Configuration](#environment-configuration)
-5. [Module Installation](#module-installation)
-6. [Running the Project](#running-the-project)
-   - [Start the Server and Client](#start-the-server-and-client)
-   - [Access the Applications](#access-the-applications)
-7. [Additional Information](#additional-information)
+2. [Cloning the Project](#cloning-the-project)
+3. [Running the Project](#running-the-project)
+   - [Client](#client)
+   - [Server](#server)
+4. [Web Flow](#web-flow)
+   - [Regular Functionality](#regular-functionality)
+   - [Additional Functionality](#additional-functionality)
+5. [Technologies Used](#technologies-used)
 
 ## Installation
 
@@ -46,6 +46,20 @@ cd client && npm install && npm run dev
 
 ### Server
 cd server && npm install && npm run dev
+
+## Web Flow
+### RRegular Functionality
+- Add products to specific categories.
+- After adding a product, it will be displayed under the category it was added to.
+- If there are no products in a category, it will not be displayed.
+- "Finish Order" button to save all selected products to the database.
+- "Total Items" title to see all products across all categories.
+- If two products are added to the same category, their quantities will be combined instead of adding a new product.
+- Responsive design.
+
+### Additional Functionality
+- Handle errors and success actions with alerts (create context and component to handle this process).
+- "Clear order" button to clear all the products
 
 ## Technologies Used
 

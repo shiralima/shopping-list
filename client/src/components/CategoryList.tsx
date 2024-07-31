@@ -18,7 +18,8 @@ import { CategoryType } from '../types/enums/CategoryType.enum';
 const CategoryList: React.FC = () => {
   const { categories } = useShop();
 
-  const isAllCategoriesEmpty = categories.every(category => category.products.length === 0);
+  const activeCategories = categories.filter(category => category.products.length > 0);
+  const isAllCategoriesEmpty = activeCategories.length === 0;
 
   const categoryIcons: { [key in CategoryType]: React.ReactNode } = {
     [CategoryType.FRUITS_AND_VEGETABLE]: <AppleIcon sx={{ fontSize: 30 }} />,
@@ -38,33 +39,50 @@ const CategoryList: React.FC = () => {
           </Typography>
         </Box>
       ) : (
-        <Grid container spacing={2}>
-          {categories
-            .filter(category => category.products.length > 0)
-            .map(({ id, name, products }: Category) => {
-
-              const productNames = products.map(({ name, quantity }) =>
+        <Grid
+          container
+          spacing={2}
+          justifyContent="center"
+          alignItems="center"
+        >
+          {activeCategories.map(({ id, name, products }: Category) => {
+            const productNames = products
+              .map(({ name, quantity }) =>
                 (quantity ?? 1) > 1 ? `${name} (${quantity})` : name
-              ).join(', ');
+              )
+              .join(', ');
 
-              let currentCategoryTotalItems = 0;
-              products.forEach(({ quantity }) => { currentCategoryTotalItems += (quantity ?? 1) });
+            let currentCategoryTotalItems = 0;
+            products.forEach(({ quantity }) => {
+              currentCategoryTotalItems += (quantity ?? 1);
+            });
 
-              return (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={id}>
-                  <Box sx={{ padding: 2, border: '1px solid #ddd', borderRadius: 2 }}>
-                    <Typography variant="h6" sx={{ textAlign: 'right', display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
-                      {name} ({currentCategoryTotalItems})
-                      {categoryIcons[name as CategoryType]}
-                    </Typography>
-                    <Typography variant="body2" sx={{ textAlign: 'right', marginTop: 1, color: 'text.secondary' }}>
-                      {productNames}
-                    </Typography>
-                    <Divider sx={{ marginTop: 2, backgroundColor: 'primary.main' }} />
-                  </Box>
-                </Grid>
-              );
-            })}
+            return (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={id}>
+                <Box sx={{ padding: 2, border: '1px solid #ddd', borderRadius: 2 }}>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      textAlign: 'right',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
+                    {name} ({currentCategoryTotalItems})
+                    {categoryIcons[name as CategoryType]}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ textAlign: 'right', marginTop: 1, color: 'text.secondary' }}
+                  >
+                    {productNames}
+                  </Typography>
+                  <Divider sx={{ marginTop: 2, backgroundColor: 'primary.main' }} />
+                </Box>
+              </Grid>
+            );
+          })}
         </Grid>
       )}
     </Box>
