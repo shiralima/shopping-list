@@ -26,7 +26,6 @@ export const ShopProvider: React.FC<ShopProviderProps> = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log('data:', data);
 
       setCategories(data);
     } catch (error) { //todo alert

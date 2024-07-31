@@ -13,7 +13,6 @@ import { useShop } from '../context/ShopContext';
 
 import { NO_ITEMS_YET } from '../constants/hebrewText';
 import { Category } from '../types/interfaces/category.interface';
-import { Product } from '../types/interfaces/product.interface';
 import { CategoryType } from '../types/enums/CategoryType.enum';
 
 const CategoryList: React.FC = () => {

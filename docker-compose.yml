@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "Z10mz10m!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: server
+    depends_on:
+      - sqlserver
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: "sqlserver"
+      DB_PORT: "1433"
+      DB_USER: "sa"
+      DB_PASSWORD: "Z10mz10m!"
+      DB_NAME: "shopping_list"
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: client
+    ports:
+      - "80:80"
+
+volumes:
+  sqlserver_data:
