@@ -48,7 +48,7 @@ cd client && npm install && npm run dev
 cd server && npm install && npm run dev
 
 ### Database
-change the password in the .env file to match your sql sever password (DB_PASSWORD variable).
+change the password in the .env file to match your sql sever password (DB_PASSWORD variable and in the `ormconfig`: password: process.env.DB_PASSWORD || 'YOUR_SQL_SERVER_PASSWORD').
 
 ## Web Flow
 ### Regular Functionality
